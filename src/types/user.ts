@@ -7,3 +7,12 @@ export type TSignUpVariables = {
 export type TSignUpMutation = TSignUpVariables & {
   callbackUrl: string;
 };
+
+export type TLoginVariables = {
+  email: string;
+  password: string;
+};
+
+export type TLogin = {
+  accessToken: string;
+};
