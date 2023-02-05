@@ -15,6 +15,9 @@
     "strictNullChecks": true,
     "allowJs": true,
     "removeComments": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "isolatedModules": true
   }
 }
