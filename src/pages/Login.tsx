@@ -11,6 +11,7 @@ import { isAxiosError } from "axios";
 import { TServerValidate } from "src/types/validate";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
+import { handleLoginSuccess } from "src/utils/axios";
 
 const schema = yup.object({
   email: yup
@@ -33,7 +34,8 @@ const Login = () => {
   });
   const navigator = useNavigate();
   const { mutate: loginMutation } = useMutation(login, {
-    onSuccess: () => {
+    onSuccess: (data) => {
+      handleLoginSuccess(data);
       navigator(routes.Home);
     },
     onError: (error) => {

@@ -1,6 +1,7 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { API_DOMAIN } from "src/constants/common";
 import { refreshAccessToken } from "src/services/user";
+import { TLogin } from "src/types/user";
 
 export const axiosInstance = axios.create({
   baseURL: API_DOMAIN,
@@ -26,3 +27,8 @@ axiosInstance.interceptors.response.use(
     }
   }
 );
+
+export const handleLoginSuccess = (response: AxiosResponse<TLogin>) => {
+  const accessToken = response.data.accessToken;
+  axiosInstance.defaults.headers.Authorization = `Bearer ${accessToken}`;
+};
