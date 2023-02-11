@@ -6,12 +6,13 @@ import { VALIDATE_MESSAGE } from "src/constants/message";
 import { STRING_MAX_LENGTH } from "src/constants/schema";
 import { FORM_FIELD } from "src/constants/field";
 import { TSignUpVariables } from "src/types/user";
-import { signUp as signUpMutation } from "src/services/user";
+import { signUp } from "src/services/user";
 import { routes } from "src/constants/routes";
 import { DOMAIN } from "src/constants/common";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { TServerValidate } from "src/types/validate";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
 
 const PASSWORD_MIN_LENGTH = 8;
 
@@ -51,16 +52,13 @@ const SignUp = () => {
     resolver: yupResolver(schema),
   });
   const navigator = useNavigate();
-
-  const handleFormSubmit = async (data: TSignUpVariables) => {
-    try {
-      await signUpMutation({
-        ...data,
-        callbackUrl: `${DOMAIN}${routes.VerifyEmail}`,
-      });
+  const { mutate: signUpMutation } = useMutation(signUp, {
+    onSuccess: () => {
       navigator(routes.Login);
-    } catch (error) {
-      if (error instanceof AxiosError) {
+    },
+    onError: (error) => {
+      console.log(error);
+      if (isAxiosError(error)) {
         error.response?.data.errors.forEach((err: TServerValidate) => {
           if (err.param === FORM_FIELD.Email) {
             setError(FORM_FIELD.Email, {
@@ -74,7 +72,14 @@ const SignUp = () => {
           }
         });
       }
-    }
+    },
+  });
+
+  const handleFormSubmit = (data: TSignUpVariables) => {
+    signUpMutation({
+      ...data,
+      callbackUrl: `${DOMAIN}${routes.VerifyEmail}`,
+    });
   };
 
   return (

@@ -5,11 +5,12 @@ import * as yup from "yup";
 import { VALIDATE_MESSAGE } from "src/constants/message";
 import { FORM_FIELD } from "src/constants/field";
 import { TLoginVariables } from "src/types/user";
-import { login as loginMutation } from "src/services/user";
+import { login } from "src/services/user";
 import { routes } from "src/constants/routes";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 import { TServerValidate } from "src/types/validate";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
 
 const schema = yup.object({
   email: yup
@@ -31,15 +32,12 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
   const navigator = useNavigate();
-
-  const handleFormSubmit = async (data: TLoginVariables) => {
-    try {
-      const result = await loginMutation(data);
-      // 로그인 저장 필요
-      console.log(result.data.accessToken);
+  const { mutate: loginMutation } = useMutation(login, {
+    onSuccess: () => {
       navigator(routes.Home);
-    } catch (error) {
-      if (error instanceof AxiosError) {
+    },
+    onError: (error) => {
+      if (isAxiosError(error)) {
         error.response?.data.errors.forEach((err: TServerValidate) => {
           if (err.param === FORM_FIELD.Email) {
             setError(FORM_FIELD.Email, {
@@ -53,7 +51,11 @@ const Login = () => {
           }
         });
       }
-    }
+    },
+  });
+
+  const handleFormSubmit = (data: TLoginVariables) => {
+    loginMutation(data);
   };
 
   return (
