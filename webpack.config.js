@@ -5,6 +5,7 @@ const isProduction = process.env.NODE_ENV == "production";
 
 module.exports = {
   mode: isProduction ? "production" : "development",
+  devtool: "eval-cheap-module-source-map",
   entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "dist"),
