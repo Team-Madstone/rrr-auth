@@ -1,6 +1,11 @@
 import axios from "axios";
 import { API_DOMAIN } from "src/constants/common";
-import { TLogin, TLoginVariables, TSignUpMutation } from "src/types/user";
+import {
+  TLogin,
+  TLoginVariables,
+  TSignUpMutation,
+  TUser,
+} from "src/types/user";
 import { axiosInstance } from "src/utils/axios";
 
 export const signUp = (data: TSignUpMutation) => {
@@ -21,4 +26,8 @@ export const refreshAccessToken = () => {
 
 export const logout = () => {
   return axiosInstance.post("/user/logout");
+};
+
+export const getMyProfile = () => {
+  return axiosInstance.get<TUser>("/user/my-profile");
 };

@@ -16,3 +16,8 @@ export type TLoginVariables = {
 export type TLogin = {
   accessToken: string;
 };
+
+export type TUser = TLoginVariables & {
+  _id: string;
+  verifyEmail: boolean;
+};
