@@ -18,3 +18,7 @@ export const refreshAccessToken = () => {
     { withCredentials: true }
   );
 };
+
+export const logout = () => {
+  return axiosInstance.post("/user/logout");
+};
