@@ -13,6 +13,7 @@ import { isAxiosError } from "axios";
 import { TServerValidate } from "src/types/validate";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
+import Layout from "src/components/Layout";
 
 const PASSWORD_MIN_LENGTH = 8;
 
@@ -83,7 +84,7 @@ const SignUp = () => {
   };
 
   return (
-    <div>
+    <Layout>
       <h1>SignUp</h1>
       <div>
         <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -108,7 +109,7 @@ const SignUp = () => {
           <button type="submit">회원가입</button>
         </form>
       </div>
-    </div>
+    </Layout>
   );
 };
 

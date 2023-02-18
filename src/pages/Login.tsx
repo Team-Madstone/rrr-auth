@@ -12,6 +12,7 @@ import { TServerValidate } from "src/types/validate";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { handleLoginSuccess } from "src/utils/axios";
+import Layout from "src/components/Layout";
 
 const schema = yup.object({
   email: yup
@@ -61,7 +62,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <Layout>
       <h1>Login</h1>
       <div>
         <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -81,7 +82,7 @@ const Login = () => {
           <button type="submit">로그인</button>
         </form>
       </div>
-    </div>
+    </Layout>
   );
 };
 
