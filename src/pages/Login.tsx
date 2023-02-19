@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { handleLoginSuccess } from "src/utils/axios";
 import Layout from "src/components/Layout";
+import { UserContext } from "src/contexts/userContext";
 
 const schema = yup.object({
   email: yup
@@ -34,9 +35,11 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
   const navigator = useNavigate();
+  const { getUser } = useContext(UserContext);
   const { mutate: loginMutation } = useMutation(login, {
     onSuccess: (data) => {
       handleLoginSuccess(data);
+      getUser();
       navigator(routes.Home);
     },
     onError: (error) => {
