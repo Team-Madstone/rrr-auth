@@ -7,7 +7,16 @@ import Home from "src/pages/Home";
 import Login from "src/pages/Login";
 import SignUp from "src/pages/SignUp";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
   return (
