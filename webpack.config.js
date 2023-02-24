@@ -31,6 +31,11 @@ module.exports = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: "asset",
       },
+      {
+        test: /.css?$/,
+        exclude: [],
+        use: ["style-loader", "css-loader", "postcss-loader"],
+      },
     ],
   },
   resolve: {
